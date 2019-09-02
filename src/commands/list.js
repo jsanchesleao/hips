@@ -16,6 +16,10 @@ class ListCommand extends Command {
     return this.SUCCESS;
   }
 
+  describe() {
+    return 'Displays the names of all saved passwords'
+  }
+
 }
 
 module.exports = ListCommand;

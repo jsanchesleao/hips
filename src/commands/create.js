@@ -41,6 +41,10 @@ class CreateCommand extends Command {
     return this.SUCCESS;
   }
 
+  describe() {
+    return 'Creates a password and stores it'
+  }
+
 }
 
 module.exports = CreateCommand;

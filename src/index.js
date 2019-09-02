@@ -7,16 +7,20 @@ const CreateCommand = require('./commands/create');
 const ListCommand = require('./commands/list');
 const GetCommand = require('./commands/get');
 const RemoveCommand = require('./commands/remove');
+const ConfigureCommand = require('./commands/configure');
 
-const app = new Switcher({
-  options: {
+const options = {
   'create-key': new CreateKeyCommand(),
   'get-key': new GetKeyCommand(),
   'create': new CreateCommand(),
   'list': new ListCommand(),
   'get': new GetCommand(),
-  'remove': new RemoveCommand()
+  'remove': new RemoveCommand(),
+  'config': new ConfigureCommand()
   }
+
+const app = new Switcher({
+  options: options
 });
 
 module.exports = app;

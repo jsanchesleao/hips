@@ -19,6 +19,10 @@ class RemoveCommand extends Command {
     return this.SUCCESS;
   }
 
+  describe() {
+    return 'Deletes a saved password';
+  }
+
 }
 
 module.exports = RemoveCommand;

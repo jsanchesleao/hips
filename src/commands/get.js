@@ -8,6 +8,11 @@ class GetCommand extends Command {
 
     const name = args._[0];
 
+    if (!name) {
+      out.send('Usage: get <name>');
+      return this.FAIL;
+    }
+
     const {passwords} = await persistence.readContent();
     const pass = passwords.find(p => p.name === name);
 
@@ -27,6 +32,9 @@ class GetCommand extends Command {
     return this.SUCCESS;
   }
 
+  describe() {
+    return 'Retrieves a saved password'
+  }
 }
 
 module.exports = GetCommand;

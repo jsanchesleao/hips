@@ -51,5 +51,6 @@ async function saveContent(content) {
 module.exports = {
   readContent,
   addPassword,
-  removePassword
+  removePassword,
+  storages
 }
