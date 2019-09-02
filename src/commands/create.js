@@ -4,13 +4,7 @@ const persistence = require('../storage/persistence');
 
 class CreateCommand extends Command {
 
-  async exec(args, out) {
-
-    if (!args.name) {
-      out.send('The --name flag is mandatory');
-      return this.FAIL;
-    }
-
+  async performCreation(args) {
     const passwd = generator.generate({
       length: args.length || 16,
       numbers: true,
@@ -18,9 +12,32 @@ class CreateCommand extends Command {
       exclude: args.exclude || []
     });
     
-    await persistence.addPassword({name: args.name, description: args.description || '', password: passwd});
+    return persistence.addPassword({name: args.name, description: args.description || '', password: passwd});
+  }
 
-    out.send(passwd);
+  passwordExists(savedContent, name) {
+    return !!savedContent.passwords.find(p => p.name === name);
+  }
+
+  async exec(args, out) {
+
+    if (!args.name) {
+      out.send('The --name flag is mandatory');
+      return this.FAIL;
+    }
+
+    const savedContent = await persistence.readContent();
+    if (this.passwordExists(savedContent, args.name) && !args.update) {
+      out.send('To override an existing password rerun with --update flag');
+      return this.FAIL
+    }
+
+    if (args.update) {
+      await persistence.removePassword(args.name);
+    }
+    await this.performCreation(args);
+    
+    out.send('Password created');
     return this.SUCCESS;
   }
 

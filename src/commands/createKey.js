@@ -10,7 +10,7 @@ class CreateKeyCommand extends Command {
   }
 
   generateKeyPair() {
-    const key = new NodeRSA({b: 2048});
+    const key = new NodeRSA({b: 3072});
     return {
       publicKey: key.exportKey('public'),
       privateKey: key.exportKey('private')

@@ -8,7 +8,10 @@ class ListCommand extends Command {
     const {passwords} = await persistence.readContent();
 
     out.send('Saved passwords: \n');
-    out.send( passwords.map(p => p.name).sort().join('\n') );
+
+    passwords.forEach(password => {
+      out.send(`${password.name} - ${password.description}`);
+    });
     
     return this.SUCCESS;
   }
