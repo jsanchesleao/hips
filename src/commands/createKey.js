@@ -17,10 +17,6 @@ class CreateKeyCommand extends Command {
     };
   }
 
-  previousKeyExists() {
-    
-  }
-
   async exec(args, out){
     const needsForceWrite = await keys.keyExists();
     if (needsForceWrite && !args.force) {
@@ -36,10 +32,6 @@ class CreateKeyCommand extends Command {
   describe() {
     return 'Generates a new key pair';
   }
-}
-
-function getKeysDir() {
-  return path.join(os.homedir(), '.hips');
 }
 
 module.exports = CreateKeyCommand;

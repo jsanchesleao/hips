@@ -60,5 +60,6 @@ module.exports = {
   addPassword,
   updatePassword,
   removePassword,
+  saveContent,
   storages
 }

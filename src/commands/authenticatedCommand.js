@@ -3,6 +3,10 @@ const {keyExists} = require('../keys');
 
 class AuthenticatedCommand extends Command {
 
+  constructor(name) {
+    super(name);
+  }
+
   async exec(args, out) {
     const haveKeys = await keyExists();
     if (!haveKeys) {

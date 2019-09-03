@@ -3,6 +3,10 @@ const persistence = require('../storage/persistence');
 
 class RemoveCommand extends AuthenticatedCommand {
 
+  constructor() {
+    super('remove');
+  }
+
   async doExec(args, out) {
 
     const name = args.name || args._[0];

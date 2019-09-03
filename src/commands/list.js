@@ -3,6 +3,10 @@ const persistence = require('../storage/persistence');
 
 class ListCommand extends AuthenticatedCommand {
 
+  constructor() {
+    super('list');
+  }
+
   async doExec(args, out) {
 
     const {passwords} = await persistence.readContent();

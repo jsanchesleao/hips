@@ -4,6 +4,10 @@ const persistence = require('../storage/persistence');
 
 class CreateCommand extends AuthenticatedCommand {
 
+  constructor() {
+    super('create');
+  }
+
   async performCreation(args) {
     const passwordParams = {
       length: args.length || 16,

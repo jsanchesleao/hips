@@ -4,6 +4,10 @@ const generator = require('generate-password');
 
 class RecreateCommand extends AuthenticatedCommand {
 
+  constructor() {
+    super('recreate');
+  }
+
   describe() {
     return 'Discards previous password and generates another'
   }

@@ -10,6 +10,7 @@ const GetCommand = require('./commands/get');
 const RemoveCommand = require('./commands/remove');
 const ConfigureCommand = require('./commands/configure');
 const HelpCommand = require('./commands/help');
+const MigrateKeysCommand = require('./commands/migrateKey');
 
 const PROMPT = `HiPS v0.1.0
 
@@ -27,7 +28,8 @@ const options = {
   'list': new ListCommand(),
   'get': new GetCommand(),
   'remove': new RemoveCommand(),
-  'config': new ConfigureCommand()
+  'config': new ConfigureCommand(),
+  'migrate-key': new MigrateKeysCommand()
   }
 
 const app = new Switcher({

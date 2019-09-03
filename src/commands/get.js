@@ -4,6 +4,10 @@ const persistence = require('../storage/persistence');
 
 class GetCommand extends AuthenticatedCommand {
 
+  constructor() {
+    super('get');
+  }
+
   async doExec(args, out) {
 
     const name = args._[0];

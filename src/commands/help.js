@@ -2,6 +2,10 @@ const {Command} = require('tbrex');
 
 class HelpCommand extends Command {
 
+  constructor() {
+    super('help');
+  }
+
   async exec(args, out) {
 
     if (args.keys) {
@@ -51,6 +55,10 @@ class HelpCommand extends Command {
   Notice that if you run "hips create-key" and you already have keys configured, it will warn
   you that you need to 'force update' the keys by running "hips create-key --force".
   This will then replace the old keys, therefore MAKING THE STORED PASSWORDS UNACCESSIBLE.
+
+  If you want to discard the keys and use new ones, while keeping you current passwords, you
+  can run "hips migrate-keys". This will decode the current passwords, discard the keys, create new keys and
+  re-encode the password with the new keys.
 
   You can see the private key as well, by running "hips get-key --private".
   Be extra cautious with this private key, as it is the key that is used to decrypt your passwords.

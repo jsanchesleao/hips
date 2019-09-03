@@ -5,6 +5,10 @@ const {storages} = require('../storage/persistence');
 
 
 class ConfigureCommand extends Command {
+
+  constructor() {
+    super('config');
+  }
   
   chooseStoragePrompt() {
     return inquirer.prompt([{
