@@ -12,6 +12,7 @@
   "dependencies": {
     "clipboardy": "^2.1.0",
     "generate-password": "^1.4.2",
+    "gists": "^2.0.0",
     "inquirer": "^7.0.0",
     "mkdirp": "^0.5.1",
     "node-rsa": "^1.0.5",
