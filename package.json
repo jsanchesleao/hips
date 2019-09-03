@@ -1,6 +1,6 @@
 {
   "name": "hips",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "bin": {
     "hips": "./cli.js"
