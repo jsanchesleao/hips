@@ -1,12 +1,12 @@
-const {Command} = require('tbrex');
+const AuthenticatedCommand = require('./authenticatedCommand');
 const keys = require('../keys');
 
-class GetKeyCommand extends Command {
+class GetKeyCommand extends AuthenticatedCommand {
   constructor() {
     super('get-key');
   }
 
-  async exec(args, out) {
+  async doExec(args, out) {
     if (args['private']) {
       const privateKey = await keys.getPrivateKey();
       out.send(privateKey);

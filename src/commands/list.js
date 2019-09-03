@@ -1,9 +1,9 @@
-const {Command} = require('tbrex');
+const AuthenticatedCommand = require('./authenticatedCommand');
 const persistence = require('../storage/persistence');
 
-class ListCommand extends Command {
+class ListCommand extends AuthenticatedCommand {
 
-  async exec(args, out) {
+  async doExec(args, out) {
 
     const {passwords} = await persistence.readContent();
 

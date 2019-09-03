@@ -1,25 +1,31 @@
-const {Command} = require('tbrex');
+const AuthenticatedCommand = require('./authenticatedCommand');
 const generator = require('generate-password');
 const persistence = require('../storage/persistence');
 
-class CreateCommand extends Command {
+class CreateCommand extends AuthenticatedCommand {
 
   async performCreation(args) {
-    const passwd = generator.generate({
+    const passwordParams = {
       length: args.length || 16,
       numbers: true,
       symbols: true,
       exclude: args.exclude || []
-    });
+    };
+    const passwd = generator.generate(passwordParams);
     
-    return persistence.addPassword({name: args.name, description: args.description || '', password: passwd});
+    return persistence.addPassword({
+      name: args.name, 
+      description: args.description || '', 
+      password: passwd,
+      params: passwordParams
+    });
   }
 
   passwordExists(savedContent, name) {
     return !!savedContent.passwords.find(p => p.name === name);
   }
 
-  async exec(args, out) {
+  async doExec(args, out) {
 
     if (!args.name) {
       out.send('The --name flag is mandatory');

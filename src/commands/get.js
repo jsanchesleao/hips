@@ -1,10 +1,10 @@
-const {Command} = require('tbrex');
+const AuthenticatedCommand = require('./authenticatedCommand');
 const clipboardy = require('clipboardy');
 const persistence = require('../storage/persistence');
 
-class GetCommand extends Command {
+class GetCommand extends AuthenticatedCommand {
 
-  async exec(args, out) {
+  async doExec(args, out) {
 
     const name = args._[0];
 

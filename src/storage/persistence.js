@@ -12,15 +12,22 @@ async function getStorage() {
   return new storage();
 }
 
-async function addPassword({name, description, password}) {
+async function addPassword(object) {
   const content = await readContent();
-  content.passwords.push({name, description, password});
+  content.passwords.push(object);
   await saveContent(content);
 }
 
 async function removePassword(name) {
   const content = await readContent();
   content.passwords = content.passwords.filter(p => p.name !== name);
+  await saveContent(content);
+}
+
+async function updatePassword(object) {
+  const content = await readContent();
+  content.passwords = content.passwords.filter(p => p.name !== object.name);
+  content.passwords.push(object);
   await saveContent(content);
 }
 
@@ -51,6 +58,7 @@ async function saveContent(content) {
 module.exports = {
   readContent,
   addPassword,
+  updatePassword,
   removePassword,
   storages
 }

@@ -51,7 +51,6 @@ class GithubStorage extends Storage {
   }
 
   async createGist(config, content) {
-    console.log('create gist');
     const client = await this.prepareClient(config);
     await client.create({
       description: 'hips.storage',
@@ -64,7 +63,6 @@ class GithubStorage extends Storage {
   }
 
   async updateGist(gistId, config, content) {
-    console.log('update gist');
     const client = await this.prepareClient(config);
     await client.edit(gistId, {
       description: 'hips.storage',

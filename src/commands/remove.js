@@ -1,10 +1,9 @@
-const {Command} = require('tbrex');
-const generator = require('generate-password');
+const AuthenticatedCommand = require('./authenticatedCommand');
 const persistence = require('../storage/persistence');
 
-class RemoveCommand extends Command {
+class RemoveCommand extends AuthenticatedCommand {
 
-  async exec(args, out) {
+  async doExec(args, out) {
 
     const name = args.name || args._[0];
 
