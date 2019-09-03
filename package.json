@@ -1,5 +1,5 @@
 {
-  "name": "hips",
+  "name": "hips-cli",
   "version": "0.1.0",
   "description": "",
   "bin": {

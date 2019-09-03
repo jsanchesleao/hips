@@ -4,7 +4,7 @@ This is a command line tool that helps manage passwords, storing them using RSA 
 
 ## Installation
 
-`npm install -g hips`
+`npm install -g hips-cli`
 
 After running the above command, run `$ hips create-key` to set up the RSA keys and this is it.
 
