@@ -1,7 +1,6 @@
 const keys = require('../keys');
 const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
-const PBKDF2 = require('pbkdf2');
 
 async function getKey() {
   const key = new NodeRSA();
@@ -26,7 +25,7 @@ async function encryptObject(object) {
 function pbkdf2(password) {
   const salt = crypto.randomBytes(16);
   return new Promise(function(resolve, reject) {
-    PBKDF2.pbkdf2(password, salt, 10000, 32, 'sha256', function(err, derivedKey) {
+    crypto.pbkdf2(password, salt, 10000, 32, 'sha256', function(err, derivedKey) {
       if (err) {
         reject(err);
       }

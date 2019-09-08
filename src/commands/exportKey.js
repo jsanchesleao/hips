@@ -59,6 +59,10 @@ class ExportKeyCommand extends Command {
       setTimeout(resolve, 10000);
     });
   }
+
+  describe() {
+    return 'Exports the keys locked with a master password'
+  }
 }
 
 module.exports = ExportKeyCommand;
