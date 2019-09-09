@@ -33,10 +33,8 @@ class GithubExporter extends Exporter {
     });
 
     this.gistId = result.body.id;
-    console.log(result.body.id);
-    console.log('Scan this code to bootstrap the web version. This will be invalid in one minute');
-
     qrcode.generate(`https://jsanchesleao.github.io/hips-web/?gistId=${this.gistId}`);
+    console.log('Scan this code to bootstrap the web version. This will be made invalid in one minute');
   }
 
   async erase() {
