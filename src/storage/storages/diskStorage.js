@@ -1,5 +1,5 @@
 const Storage = require('./storage');
-const filesystem = require('../filesystem');
+const filesystem = require('../../filesystem');
 const path = require('path')
 
 class DiskStorage extends Storage {

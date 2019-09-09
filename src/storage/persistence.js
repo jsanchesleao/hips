@@ -2,8 +2,8 @@ const {getConfig} = require('../config');
 const {decryptObject, encryptObject} = require('./crypto');
 
 const storages = [
-  require('./diskStorage'),
-  require('./githubStorage')
+  require('./storages/diskStorage'),
+  require('./storages/githubStorage')
 ];
 
 async function getStorage() {

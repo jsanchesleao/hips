@@ -1,10 +1,8 @@
 const {Command} = require('tbrex');
 const inquirer = require('inquirer');
-const {pbkdf2, encodeByPassword} = require('../storage/crypto');
-const {getPrivateKey, getPublicKey} = require('../keys');
+const {exposeKeys, getAvailableExporters} = require('../storage/keyTransfer');
 
 const express = require('express');
-const cors = require('cors');
 
 class ExportKeyCommand extends Command {
   constructor() {
@@ -12,25 +10,18 @@ class ExportKeyCommand extends Command {
   }
 
   async exec(args, out) {
-    const sensitiveData = await this.getSensitiveData();
+    const exporterName = await this.chooseExporter();
     const passwd = await this.getPassphrase();
-    const {salt, derivedKey} = await pbkdf2(passwd);
-    const {iv, encrypted} = await encodeByPassword(sensitiveData, derivedKey);
-
-    out.send('We are serving your keys under http://0.0.0.0:8000/keys');
-    out.send('The server will be up for a few seconds and you are only allowed to make ONE request to it');
-
-    await this.expose({
-      salt: salt.toString('base64'),
-      iv: iv.toString('base64'),
-      keys: encrypted.toString('base64')
-    });
+    await exposeKeys(passwd, exporterName);
   }
 
-  async getSensitiveData() {
-    const privateKey = await getPrivateKey();
-    const publicKey = await getPublicKey();
-    return JSON.stringify({privateKey, publicKey});
+  async chooseExporter() {
+    const {exporter} = await inquirer.prompt([{
+      type: 'list',
+      name: 'exporter',
+      choices: getAvailableExporters().map(e => ({name: `${e.name} - ${e.description}`, value: e.name}))
+    }]);
+    return exporter;
   }
 
   async getPassphrase() {
@@ -40,24 +31,6 @@ class ExportKeyCommand extends Command {
       message: "Enter the exported keys' password:"
     }]);
     return password;
-  }
-
-  expose(data) {
-    const app = express();
-    app.use(cors());
-    let sent = false;
-    app.get('/keys', function(req, res) {
-      if (sent) {
-        res.send('Please re-run the command');
-        return;
-      }
-      res.send(data);
-      sent = true;
-    })
-    app.listen(8000);
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, 10000);
-    });
   }
 
   describe() {

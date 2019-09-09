@@ -1,6 +1,6 @@
 const Storage = require('./storage');
 const Gists = require('gists');
-const {getConfig, updateConfig} = require('../config');
+const {getConfig, updateConfig} = require('../../config');
 
 class GithubStorage extends Storage {
 
