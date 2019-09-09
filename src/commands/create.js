@@ -11,8 +11,8 @@ class CreateCommand extends AuthenticatedCommand {
   async performCreation(args) {
     const passwordParams = {
       length: args.length || 16,
-      numbers: true,
-      symbols: true,
+      numbers: args.numbers !== 'false',
+      symbols: args.symbols !== 'false',
       exclude: args.exclude || []
     };
     const passwd = generator.generate(passwordParams);

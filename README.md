@@ -23,9 +23,11 @@ To create a password and store it run the command:
 
 `$ hips create --name <foo> --description <bar> [--length --exclude]`
 
-With this command the user can also set the length of the password and even prohibit some characters. It's
-recommended that this options is used only if the target service has some input limitations for the
-passwords.
+With this command you can also set the length of the password and even prohibit some characters. 
+    
+To exclude numbers use `--numbers=false` and to exclude symbols use `--symbols=false`
+
+It's recommended that you use these options only if the target service has some input limitations for the passwords.
 
 Run `$ hips get <foo>` to retrieve the generated password. This command will copy it to the clipboard.
 If the user runs `$ hips get <foo> --display`, the password will be echoed in the console instead.
