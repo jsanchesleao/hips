@@ -13,7 +13,7 @@ const HelpCommand = require('./commands/help');
 const MigrateKeysCommand = require('./commands/migrateKey');
 const ExportKeyCommand = require('./commands/exportKey');
 
-const PROMPT = `HiPS v0.1.0
+const PROMPT = `HiPS v0.1.1
 
 Usage: hips <command> [...arguments]
 

@@ -19,18 +19,18 @@ class RecreateCommand extends AuthenticatedCommand {
     }
     const content = await readContent();
     const names = args.all ? (content.passwords.map(p => p.name)) : args._;
-    
+
     const passwordsToUpdate = content.passwords.filter(password => names.indexOf(password.name) >= 0);
     await this.recreateAll(passwordsToUpdate);
     return this.SUCCESS;
   }
-  
+
   async recreateAll(passwords) {
     for(let i = 0; i < passwords.length; i++) {
       await this.recreate(passwords[i]);
     }
   }
-  
+
   async recreate(passwordObject) {
     const newPassword = generator.generate(passwordObject.params);
     await updatePassword({...passwordObject, password: newPassword});

@@ -1,5 +1,7 @@
 const {Command} = require('tbrex');
-const {keyExists} = require('../keys');
+const {symmetricKeyExists, asymmetricKeysExist} = require('../keys');
+
+const {getConfig} = require('../config');
 
 class AuthenticatedCommand extends Command {
 
@@ -8,7 +10,7 @@ class AuthenticatedCommand extends Command {
   }
 
   async exec(args, out) {
-    const haveKeys = await keyExists();
+    const haveKeys = await this.keyExists();
     if (!haveKeys) {
       out.send(this.help());
       return this.FAIL;
@@ -16,9 +18,20 @@ class AuthenticatedCommand extends Command {
     return this.doExec(args, out);
   }
 
+  async keyExists() {
+    const config = await getConfig();
+    if (config.cryptography === 'symmetric') {
+      return symmetricKeyExists();
+    }
+    else {
+      console.log('asymmetric');
+      return asymmetricKeysExist();
+    }
+  }
+
   help() {
     return `
-    There is no RSA keys configured. Run "hips help --keys" to find out how to set this up.
+    There is no cryptography keys configured. Run "hips help --keys" to find out how to set this up.
     `
   }
 

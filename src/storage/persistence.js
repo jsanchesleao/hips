@@ -1,5 +1,6 @@
 const {getConfig} = require('../config');
-const {decryptObject, encryptObject} = require('./crypto');
+const asymmetric = require('./crypto/asymmetric');
+const symmetric = require('./crypto/symmetric');
 
 const storages = [
   require('./storages/diskStorage'),
@@ -35,9 +36,10 @@ async function readContent() {
   try {
     const storage = await getStorage();
     const config = await getConfig();
+    const encryptionMethod = config.cryptography === 'symmetric' ? symmetric : asymmetric;
   
     const rawContent = await storage.readContent(config.storageConfig[config.storage]);
-    const content = await decryptObject(rawContent);
+    const content = await encryptionMethod.decryptObject(rawContent);
     return content;
   }
   catch(err) {
@@ -50,8 +52,8 @@ async function readContent() {
 async function saveContent(content) {
   const storage = await getStorage();
   const config = await getConfig();
-
-  const encryptedContent = await encryptObject(content);
+  const encryptionMethod = config.cryptography === 'symmetric' ? symmetric : asymmetric;
+  const encryptedContent = await encryptionMethod.encryptObject(content);
   await storage.saveContent(config.storageConfig[config.storage], encryptedContent);
 }
 

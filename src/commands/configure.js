@@ -9,7 +9,7 @@ class ConfigureCommand extends Command {
   constructor() {
     super('config');
   }
-  
+
   chooseStoragePrompt() {
     return inquirer.prompt([{
       type: 'list',
@@ -34,6 +34,7 @@ class ConfigureCommand extends Command {
   }
 
   async interactiveUpdate(out) {
+    await this.configureKeyType();
     const {storage} = await this.chooseStoragePrompt();
     if (storage === 'QUIT') {
       return this.SUCCESS;
@@ -44,9 +45,29 @@ class ConfigureCommand extends Command {
     config.storage = storage.name;
     config.storageConfig[storage.name] = storageConfig;
     await updateConfig(config);
-    
+
     out.send(`${config.storage} is configured`);
     return this.SUCCESS;
+  }
+
+  async configureKeyType() {
+    const config = await getConfig();
+    if (config.cryptography === 'unset' || !config.cryptography) {
+      const {cryptography} = await this.promptKeyType();
+      config.cryptography = cryptography;
+      await updateConfig(config);
+    }
+  }
+
+  async promptKeyType() {
+    return inquirer.prompt([{
+      type: 'list',
+      name: 'cryptography',
+      choices: [
+        {name: 'Symmetric', value: 'symmetric' },
+        {name: 'Asymmetric', value: 'asymmetric' }
+      ]
+    }]);
   }
 
   async showConfig(out) {
@@ -62,7 +83,7 @@ class ConfigureCommand extends Command {
     else {
       return this.interactiveUpdate(out);
     }
-    
+
   }
 
   describe() {

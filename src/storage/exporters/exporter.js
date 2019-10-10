@@ -1,6 +1,6 @@
-
-const {getPrivateKey, getPublicKey} = require('../../keys');
-const {pbkdf2, encodeByPassword} = require('../crypto');
+const {getConfig} = require('../../config');
+const {getPrivateKey, getPublicKey, getSymmetricKey} = require('../../keys');
+const {pbkdf2, encodeByPassword} = require('../crypto/symmetric');
 
 class Exporter {
 
@@ -22,19 +22,28 @@ class Exporter {
     });
   }
 
-
   async getEncodedSensitiveData(masterkey) {
-    const privateKey = await getPrivateKey();
-    const publicKey = await getPublicKey();
-    const sensitiveData = JSON.stringify({privateKey, publicKey});
+    const sensitiveData = await this.getSensitiveData();
     const {salt, derivedKey} = await pbkdf2(masterkey);
     const {iv, encrypted} = await encodeByPassword(sensitiveData, derivedKey);
-    
     return {
       salt: salt.toString('base64'),
       iv: iv.toString('base64'),
       keys: encrypted.toString('base64')
     };
+  }
+
+  async getSensitiveData() {
+    const config = await getConfig();
+    if (config.cryptography === 'symmetric') {
+      const aesKey = await getSymmetricKey();
+      return JSON.stringify({aesKey})
+    }
+    else {
+      const privateKey = await getPrivateKey();
+      const publicKey = await getPublicKey();
+      return JSON.stringify({privateKey, publicKey});
+    }
   }
 
 }

@@ -4,6 +4,7 @@ const os = require('os');
 
 const EMPTY_CONFIG = {
   storage: 'DiskStorage',
+  cryptography: 'unset',
   storageConfig: {
     DiskStorage: {
       path: os.homedir()

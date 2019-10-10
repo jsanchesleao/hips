@@ -1,7 +1,9 @@
 const AuthenticatedCommand = require('./authenticatedCommand');
-const NodeRSA = require('node-rsa');
 const {readContent, saveContent} = require('../storage/persistence');
 const keys = require('../keys');
+const {generateKeyPair} = require('../storage/crypto/asymmetric');
+const {generateAesKey} = require('../storage/crypto/symmetric');
+const {getConfig} = require('../config');
 const inquirer = require('inquirer');
 
 
@@ -9,14 +11,6 @@ class MigrateKeyCommand extends AuthenticatedCommand {
 
   constructor() {
     super('migrate-key');
-  }
-
-  generateKeyPair() {
-    const key = new NodeRSA({b: 3072});
-    return {
-      publicKey: key.exportKey('public'),
-      privateKey: key.exportKey('private')
-    };
   }
 
   async getConfirmation() {
@@ -36,14 +30,25 @@ class MigrateKeyCommand extends AuthenticatedCommand {
         return this.SUCCESS;
       }
     }
-    
+
     const content = await readContent();
-    const keyPair = this.generateKeyPair();
-    await keys.saveKeys(keyPair);
+    await this.changeKeys();
     await saveContent(content);
 
     out.send('Keys migrated successfully');
     return this.SUCCESS;
+  }
+
+  async changeKeys() {
+    const config = await getConfig();
+    if(config.cryptography === 'symmetric') {
+      const key = generateAesKey()
+      await keys.saveSymmetricKey(key);
+    }
+    else {
+      const keyPair = generateKeyPair();
+      await keys.saveAsymmetricKeys(keyPair);
+    }
   }
 
   describe() {
