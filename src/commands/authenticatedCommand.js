@@ -24,7 +24,6 @@ class AuthenticatedCommand extends Command {
       return symmetricKeyExists();
     }
     else {
-      console.log('asymmetric');
       return asymmetricKeysExist();
     }
   }
