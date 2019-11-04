@@ -1,6 +1,6 @@
 const {getConfig} = require('../../config');
 const {getPrivateKey, getPublicKey, getSymmetricKey} = require('../../keys');
-const {pbkdf2, encodeByPassword} = require('../crypto/symmetric');
+const {pbkdf2, encode} = require('../crypto/symmetric');
 
 class Exporter {
 
@@ -25,7 +25,7 @@ class Exporter {
   async getEncodedSensitiveData(masterkey) {
     const sensitiveData = await this.getSensitiveData();
     const {salt, derivedKey} = await pbkdf2(masterkey);
-    const {iv, encrypted} = await encodeByPassword(sensitiveData, derivedKey);
+    const {iv, encrypted} = await encode(sensitiveData, derivedKey);
     return {
       salt: salt.toString('base64'),
       iv: iv.toString('base64'),

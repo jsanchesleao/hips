@@ -90,6 +90,7 @@ async function decryptObject(text) {
 
 module.exports = {
   pbkdf2,
+  encode,
   encodeByPassword,
   generateAesKey,
   encryptObject,
