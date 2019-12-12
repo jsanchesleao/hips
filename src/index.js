@@ -4,6 +4,7 @@ const CreateKeyCommand = require('./commands/createKey');
 const GetKeyCommand = require('./commands/getKey');
 
 const CreateCommand = require('./commands/create');
+const AddCommand = require('./commands/add');
 const RecreateCommand = require('./commands/recreate');
 const ListCommand = require('./commands/list');
 const GetCommand = require('./commands/get');
@@ -25,6 +26,7 @@ const options = {
   'create-key': new CreateKeyCommand(),
   'get-key': new GetKeyCommand(),
   'create': new CreateCommand(),
+  'add': new AddCommand(),
   'recreate': new RecreateCommand(),
   'list': new ListCommand(),
   'get': new GetCommand(),

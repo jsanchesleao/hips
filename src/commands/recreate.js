@@ -20,7 +20,9 @@ class RecreateCommand extends AuthenticatedCommand {
     const content = await readContent();
     const names = args.all ? (content.passwords.map(p => p.name)) : args._;
 
-    const passwordsToUpdate = content.passwords.filter(password => names.indexOf(password.name) >= 0);
+    const automaticPasswords = content.passwords.filter(password => !password.manual);
+
+    const passwordsToUpdate = automaticPasswords.filter(password => names.indexOf(password.name) >= 0);
     await this.recreateAll(passwordsToUpdate);
     return this.SUCCESS;
   }
