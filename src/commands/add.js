@@ -1,5 +1,6 @@
 const AuthenticatedCommand = require('./authenticatedCommand');
 const persistence = require('../storage/persistence');
+const inquirer = require('inquirer');
 
 class AddCommand extends AuthenticatedCommand {
 
