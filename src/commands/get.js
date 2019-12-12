@@ -20,8 +20,6 @@ class GetCommand extends AuthenticatedCommand {
     const {passwords} = await persistence.readContent();
     const pass = passwords.find(p => p.name === name);
 
-    console.log(pass);
-
     if (!pass) {
       out.send('Cannot find password');
       return this.FAIL;
