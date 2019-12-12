@@ -9,7 +9,7 @@ class AddCommand extends AuthenticatedCommand {
   }
 
   async performCreation(args) {
-    const passwd = await this.getPassword();
+    const {password} = await this.getPassword();
 
     const passwordParams = {
       manual: true
@@ -18,7 +18,7 @@ class AddCommand extends AuthenticatedCommand {
     return persistence.addPassword({
       name: args.name, 
       description: args.description || '', 
-      password: passwd,
+      password: password,
       params: passwordParams
     });
   }
